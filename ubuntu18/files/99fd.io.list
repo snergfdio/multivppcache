@@ -1,0 +1,2 @@
+deb [trusted=yes] https://nexus.fd.io/content/repositories/fd.io.master.ubuntu.bionic.main ./
+#deb [trusted=yes] https://apt.fd.io/fd.io.master.ubuntu.bionic.main ./
