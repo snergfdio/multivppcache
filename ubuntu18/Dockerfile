@@ -201,7 +201,8 @@ ADD files/99fd.io.list /etc/apt/sources.list.d/99fd.io.list
 #RUN apt update && apt install -y vpp-dpdk-dev vpp-dpdk-dkms || true
 #RUN mkdir -p /w/dpdk && cd /w/dpdk; apt-get download vpp-dpdk-dkms || true
 
-RUN mkdir -p /w/workspace/vpp-verify-master-ubuntu1804 && mkdir -p /home/jenkins
+#RUN mkdir -p /w/workspace/vpp-verify-master-ubuntu1804 && mkdir -p /home/jenkins
+RUN mkdir -p /w/workspace && mkdir -p /home/jenkins
 RUN apt-get purge -y default-jre-headless openjdk-9-jdk-headless openjdk-9-jre-headless || true
 
 ADD files/default-jdk-headless_1.8-59ubuntu2_amd64.deb /tmp/default-jdk-headless_1.8-59ubuntu2_amd64.deb
