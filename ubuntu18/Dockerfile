@@ -178,6 +178,19 @@ RUN apt-get -q update && \
         graphviz \
         && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get -q update && \
+    apt-get install -y -qq \
+        cmake \
+        cmake-data \
+        libarchive13 \
+        liblzo2-2 \
+        librhash0 \
+        libuv1 \
+        ninja-build \
+        cmake-doc \
+        lrzip \
+        && rm -rf /var/lib/apt/lists/*
+
 # Configure locales
 RUN locale-gen en_US.UTF-8 && \
     dpkg-reconfigure locales
