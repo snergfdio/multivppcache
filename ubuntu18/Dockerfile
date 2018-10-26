@@ -189,6 +189,7 @@ RUN apt-get -q update && \
         ninja-build \
         cmake-doc \
         lrzip \
+        xmlstarlet \
         && rm -rf /var/lib/apt/lists/*
 
 # Configure locales
