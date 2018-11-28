@@ -16,7 +16,7 @@ FROM ubuntu:bionic-20180821
 MAINTAINER csit-dev <csit-dev@lists.fd.io>
 LABEL Description="CSIT vpp-device ubuntu 18.04 baseline image"
 LABEL Vendor="cisco.com"
-LABEL Version="0.3"
+LABEL Version="0.4"
 
 # Setup the environment
 ENV DEBIAN_FRONTEND=noninteractive
@@ -80,6 +80,8 @@ RUN apt-get -q update \
         libmbedtls10 \
         libmbedx509-0 \
         libnuma1 \
+        python-cffi \
+        python-enum34 \
  && rm -rf /var/lib/apt/lists/*
 
 # Configure locales
