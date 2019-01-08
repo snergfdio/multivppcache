@@ -117,7 +117,7 @@ RUN pip install \
         six==1.12.0 \
         dill==0.2.8.2 \
         numpy==1.14.5 \
-        scipy==1.1.0 \
+        scipy==1.1.0
 
 # SSH settings
 RUN echo 'root:Csit1234' | chpasswd \
