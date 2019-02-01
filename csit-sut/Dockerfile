@@ -90,8 +90,7 @@ RUN locale-gen en_US.UTF-8 \
 
 # Fix permissions
 RUN chown root:syslog /var/log \
- && chmod 755 /etc/default \
- && ln -s /dev/null /etc/sysctl.d/80-vpp.conf
+ && chmod 755 /etc/default
 
 # Create directory structure
 RUN mkdir -p /tmp/dumps \
