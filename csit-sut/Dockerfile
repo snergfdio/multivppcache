@@ -1,4 +1,4 @@
-# Copyright (c) 2018 Cisco and/or its affiliates.
+# Copyright (c) 2019 Cisco and/or its affiliates.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at:
@@ -14,9 +14,9 @@
 FROM ubuntu:bionic-20180821
 
 MAINTAINER csit-dev <csit-dev@lists.fd.io>
-LABEL Description="CSIT vpp-device ubuntu 18.04 baseline image"
+LABEL Description="CSIT vpp-device ubuntu 18.04 baseline image (x86)"
 LABEL Vendor="cisco.com"
-LABEL Version="0.4"
+LABEL Version="0.5"
 
 # Setup the environment
 ENV DEBIAN_FRONTEND=noninteractive
@@ -90,7 +90,8 @@ RUN locale-gen en_US.UTF-8 \
 
 # Fix permissions
 RUN chown root:syslog /var/log \
- && chmod 755 /etc/default
+ && chmod 755 /etc/default \
+ && ln -s /dev/null /etc/sysctl.d/80-vpp.conf
 
 # Create directory structure
 RUN mkdir -p /tmp/dumps \
