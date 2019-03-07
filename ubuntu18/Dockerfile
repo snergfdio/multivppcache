@@ -209,7 +209,7 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
 
 RUN curl -L https://packagecloud.io/fdio/master/gpgkey |sudo apt-key add -
-ADD files/99fd.io.list /etc/apt/sources.list.d/99fd.io.list
+#ADD files/99fd.io.list /etc/apt/sources.list.d/99fd.io.list
 #ADD files/fdio_master.list /etc/apt/sources.list.d/fdio_master.list
 
 #RUN apt update && apt install -y vpp-dpdk-dev vpp-dpdk-dkms || true
@@ -242,6 +242,7 @@ RUN wget -O /w/Downloads/dpdk-18.08.tar.xz http://dpdk.org/browse/dpdk/snapshot/
 RUN wget -O /w/Downloads/v0.47.tar.gz http://github.com/01org/intel-ipsec-mb/archive/v0.47.tar.gz
 RUN wget -O /w/Downloads/v0.48.tar.gz http://github.com/01org/intel-ipsec-mb/archive/v0.48.tar.gz
 RUN wget -O /w/Downloads/v0.49.tar.gz http://github.com/01org/intel-ipsec-mb/archive/v0.49.tar.gz
+RUN curl -s https://packagecloud.io/install/repositories/fdio/master/script.deb.sh | sudo bash
 
 #RUN git clone https://gerrit.fd.io/r/vpp /workspace/ubuntu16 && cd /workspace/ubuntu16; make UNATTENDED=yes install-dep && rm -rf /workspace/ubuntu16 && rm -rf /var/lib/apt/lists/*
 
