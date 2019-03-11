@@ -224,6 +224,9 @@ ADD files/default-jre-headless_1.8-59ubuntu2_amd64.deb /tmp/default-jre-headless
 
 RUN apt-get install -y /tmp/default-jre-headless_1.8-59ubuntu2_amd64.deb /tmp/default-jdk-headless_1.8-59ubuntu2_amd64.deb
 ADD files/jre /etc/apt/preferences.d/jre
+ADD files/pc_push /usr/local/bin/pc_push
+ADD files/packagecloud /root/.packagecloud
+ADD files/packagecloud_api /root/packagecloud_api
 
 RUN gem install rake
 RUN gem install package_cloud
