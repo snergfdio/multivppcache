@@ -14,7 +14,7 @@
 FROM ubuntu:bionic-20180821
 
 MAINTAINER csit-dev <csit-dev@lists.fd.io>
-LABEL Description="CSIT vpp-device ubuntu 18.04 baseline image (x86)"
+LABEL Description="CSIT vpp-device ubuntu 18.04 baseline image (aarch64)"
 LABEL Vendor="cisco.com"
 LABEL Version="0.5"
 
@@ -34,7 +34,7 @@ RUN apt-get -q update \
 
 # Repository settings
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
- && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+ && add-apt-repository "deb https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
  && apt-get remove -y \
         curl
 
@@ -58,7 +58,11 @@ RUN apt-get -q update \
         # csit requirements
         cmake \
         dkms \
+        dmidecode \
         docker-ce \
+        gfortran \
+        libblas-dev \
+        liblapack-dev \
         libpcap-dev \
         libpython2.7-dev \
         libpython-dev \
@@ -67,7 +71,7 @@ RUN apt-get -q update \
         python2.7-dev \
         python-dev \
         python-virtualenv \
-        qemu-system-x86 \
+        qemu-system-aarch64 \
         socat \
         strongswan \
         unzip \
@@ -82,6 +86,7 @@ RUN apt-get -q update \
         libnuma1 \
         python-cffi \
         python-enum34 \
+        python3-cffi \
  && rm -rf /var/lib/apt/lists/*
 
 # Configure locales
@@ -116,8 +121,13 @@ RUN pip install \
         scp==0.10.2 \
         six==1.12.0 \
         dill==0.2.8.2 \
-        numpy==1.14.5 \
-        scipy==1.1.0
+        numpy==1.14.5
+
+RUN pip install scipy==1.1.0
+
+# VPP PIP pre-cache
+RUN pip install \
+        aenum=2.1.2
 
 # SSH settings
 RUN echo 'root:Csit1234' | chpasswd \
