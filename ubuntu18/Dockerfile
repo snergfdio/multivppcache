@@ -93,6 +93,7 @@ RUN apt-get -q update && \
         make \
         wget \
         openjdk-8-jdk \
+        openjdk-11-jdk \
         jq \
         libffi-dev \
 	    python-all \
@@ -227,7 +228,8 @@ ADD files/jre /etc/apt/preferences.d/jre
 ADD files/pc_push /usr/local/bin/pc_push
 ADD files/packagecloud /root/.packagecloud
 ADD files/packagecloud_api /root/packagecloud_api
-
+ADD files/lf-update-java-alternatives /usr/local/bin/lf-update-java-alternatives
+RUN chmod 755 /usr/local/bin/lf-update-java-alternatives
 RUN gem install rake
 RUN gem install package_cloud
 RUN pip install six scapy==2.3.3 pyexpect subprocess32 cffi git+https://github.com/klement/py-lispnetworking@setup pycodestyle
