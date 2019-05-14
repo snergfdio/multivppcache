@@ -191,6 +191,8 @@ RUN apt-get -q update && \
         cmake-doc \
         lrzip \
         xmlstarlet \
+        g++-8 \
+        gcc-8 \
         && rm -rf /var/lib/apt/lists/*
 
 # Configure locales
@@ -207,7 +209,7 @@ ENV CCACHE_DIR=/var/ccache
 ENV CCACHE_READONLY=true
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
-
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 700 --slave /usr/bin/g++ g++ /usr/bin/g++-7 && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 --slave /usr/bin/g++ g++ /usr/bin/g++-8
 
 RUN curl -L https://packagecloud.io/fdio/master/gpgkey |sudo apt-key add -
 #ADD files/99fd.io.list /etc/apt/sources.list.d/99fd.io.list
