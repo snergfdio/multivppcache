@@ -191,8 +191,8 @@ RUN apt-get -q update && \
         cmake-doc \
         lrzip \
         xmlstarlet \
-#        g++-8 \
-#        gcc-8 \
+        g++-8 \
+        gcc-8 \
         && rm -rf /var/lib/apt/lists/*
 
 # Configure locales
