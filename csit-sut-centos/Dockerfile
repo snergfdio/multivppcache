@@ -42,6 +42,7 @@ RUN yum install -y \
         wget \
         python-devel \
         java-*-openjdk-devel \
+        openssh-clients \
         # csit requirements
         gcc \
         cmake3 \
