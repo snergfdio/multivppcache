@@ -41,6 +41,7 @@ RUN yum install -y \
         vim \
         wget \
         python-devel \
+        java-*-openjdk-devel \
         # csit requirements
         gcc \
         cmake3 \
@@ -106,6 +107,10 @@ RUN pip install \
 # VPP PIP pre-cache
 RUN pip install \
         aenum
+
+# lf java insanity
+ADD files/lf-update-java-alternatives /usr/local/bin/lf-update-java-alternatives
+RUN chmod 755 /usr/local/bin/lf-update-java-alternatives
 
 # SSH settings
 RUN echo 'root:Csit1234' | chpasswd \
