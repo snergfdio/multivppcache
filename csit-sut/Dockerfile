@@ -1,4 +1,5 @@
 # Copyright (c) 2019 Cisco and/or its affiliates.
+# Copyright (c) 2019 PANTHEON.tech s.r.o. and/or its affiliates.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at:
@@ -11,10 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM ubuntu:bionic-20180821
-
+FROM ubuntu:18.04
 MAINTAINER csit-dev <csit-dev@lists.fd.io>
-LABEL Description="CSIT vpp-device ubuntu 18.04 baseline image (x86)"
+LABEL Description="CSIT vpp-device ubuntu 18.04 SUT image"
 LABEL Version="0.6"
 
 # Setup the environment
@@ -23,27 +23,24 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 ENV NOTVISIBLE "in users profile"
 ENV VPP_PYTHON_PREFIX=/var/cache/vpp/python
 
-# Base layer
+# Configure locales
 RUN apt-get -q update \
  && apt-get install -y -qq \
+        locales
+RUN locale-gen en_US.UTF-8 \
+ && dpkg-reconfigure locales
+
+# Base layer
+RUN apt-get install -y -qq \
         apt-transport-https \
         curl \
-        software-properties-common \
- && rm -rf /var/lib/apt/lists/*
-
-# Repository settings
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
- && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
- && apt-get remove -y \
-        curl
+        software-properties-common
 
 # Extended layer
-RUN apt-get -q update \
- && apt-get install -y -qq \
+RUN apt-get install -y -qq \
         # general tools
         bridge-utils \
         cloud-init \
-        locales \
         net-tools \
         openssh-server \
         pciutils \
@@ -57,7 +54,9 @@ RUN apt-get -q update \
         # csit requirements
         cmake \
         dkms \
-        docker-ce \
+        gfortran \
+        libblas-dev \
+        liblapack-dev \
         libpcap-dev \
         libpython2.7-dev \
         libpython-dev \
@@ -66,7 +65,7 @@ RUN apt-get -q update \
         python2.7-dev \
         python-dev \
         python-virtualenv \
-        qemu-system-x86 \
+        qemu-system \
         socat \
         strongswan \
         unzip \
@@ -81,12 +80,10 @@ RUN apt-get -q update \
         libnuma1 \
         python-cffi \
         python-enum34 \
-        python3-cffi \
- && rm -rf /var/lib/apt/lists/*
+        python3-cffi
 
-# Configure locales
-RUN locale-gen en_US.UTF-8 \
- && dpkg-reconfigure locales
+# Docker install
+RUN curl -fsSL https://get.docker.com | sh
 
 # Fix permissions
 RUN chown root:syslog /var/log \
@@ -99,6 +96,7 @@ RUN mkdir -p /tmp/dumps \
 
 # CSIT PIP pre-cache
 RUN pip install \
+        aenum==2.1.2 \
         docopt==0.6.2 \
         ecdsa==0.13 \
         enum34==1.1.2 \
@@ -116,12 +114,21 @@ RUN pip install \
         scp==0.10.2 \
         six==1.12.0 \
         dill==0.2.8.2 \
-        numpy==1.14.5 \
-        scipy==1.1.0
+        numpy==1.14.5
+
+# ARM workaround
+RUN pip install scipy==1.1.0
 
 # VPP PIP pre-cache
 RUN pip install \
         aenum
+
+# Kernel image for VM tests download and extract
+COPY get-linux-vm-image.sh /root/get-linux-vm-image.sh
+RUN chmod 755 /root/get-linux-vm-image.sh
+RUN /root/get-linux-vm-image.sh
+
+RUN rm -rf /var/lib/apt/lists/*
 
 # SSH settings
 RUN echo 'root:Csit1234' | chpasswd \
