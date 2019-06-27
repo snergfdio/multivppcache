@@ -93,6 +93,7 @@ RUN apt-get -q update && \
         make \
         wget \
         openjdk-8-jdk \
+        openjdk-11-jdk \
         jq \
         libffi-dev \
 	    python-all \
@@ -190,6 +191,8 @@ RUN apt-get -q update && \
         cmake-doc \
         lrzip \
         xmlstarlet \
+        g++-8 \
+        gcc-8 \
         && rm -rf /var/lib/apt/lists/*
 
 # Configure locales
@@ -206,7 +209,7 @@ ENV CCACHE_DIR=/var/ccache
 ENV CCACHE_READONLY=true
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
-
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 700 --slave /usr/bin/g++ g++ /usr/bin/g++-7 && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 --slave /usr/bin/g++ g++ /usr/bin/g++-8
 
 RUN curl -L https://packagecloud.io/fdio/master/gpgkey |sudo apt-key add -
 #ADD files/99fd.io.list /etc/apt/sources.list.d/99fd.io.list
@@ -227,7 +230,8 @@ ADD files/jre /etc/apt/preferences.d/jre
 ADD files/pc_push /usr/local/bin/pc_push
 ADD files/packagecloud /root/.packagecloud
 ADD files/packagecloud_api /root/packagecloud_api
-
+ADD files/lf-update-java-alternatives /usr/local/bin/lf-update-java-alternatives
+RUN chmod 755 /usr/local/bin/lf-update-java-alternatives
 RUN gem install rake
 RUN gem install package_cloud
 RUN pip install six scapy==2.3.3 pyexpect subprocess32 cffi git+https://github.com/klement/py-lispnetworking@setup pycodestyle
