@@ -12,8 +12,9 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 ADD files/wrapdocker /usr/local/bin/wrapdocker
 RUN chmod +x /usr/local/bin/wrapdocker
 
-RUN apt-get -q update && \
-    apt-get install -y -qq \
+# Install packages and Docker
+RUN apt-get -q update \
+ && apt-get install -y -qq \
         bash \
         curl \
         iproute2 \
@@ -21,12 +22,9 @@ RUN apt-get -q update && \
         ssh \
         sudo \
         tzdata \
-        uuid-runtime
-
-# Docker install
-RUN curl -fsSL https://get.docker.com | sh
-
-RUN rm -rf /var/lib/apt/lists/*
+        uuid-runtime \
+ && curl -fsSL https://get.docker.com | sh \
+ && rm -rf /var/lib/apt/lists/*
 
 # Configure locales
 RUN locale-gen en_US

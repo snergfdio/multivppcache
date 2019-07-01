@@ -23,28 +23,20 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 ENV NOTVISIBLE "in users profile"
 ENV VPP_PYTHON_PREFIX=/var/cache/vpp/python
 
-# Configure locales
+# Install packages and Docker
 RUN apt-get -q update \
  && apt-get install -y -qq \
-        locales
-RUN locale-gen en_US.UTF-8 \
- && dpkg-reconfigure locales
-
-# Base layer
-RUN apt-get install -y -qq \
-        apt-transport-https \
-        curl \
-        software-properties-common
-
-# Extended layer
-RUN apt-get install -y -qq \
         # general tools
+        apt-transport-https \
         bridge-utils \
         cloud-init \
+        curl \
+        locales \
         net-tools \
         openssh-server \
         pciutils \
         rsyslog \
+        software-properties-common \
         ssh \
         sudo \
         supervisor \
@@ -80,10 +72,13 @@ RUN apt-get install -y -qq \
         libnuma1 \
         python-cffi \
         python-enum34 \
-        python3-cffi
+        python3-cffi \
+ && curl -fsSL https://get.docker.com | sh \
+ && rm -rf /var/lib/apt/lists/*
 
-# Docker install
-RUN curl -fsSL https://get.docker.com | sh
+# Configure locales
+RUN locale-gen en_US.UTF-8 \
+ && dpkg-reconfigure locales
 
 # Fix permissions
 RUN chown root:syslog /var/log \
@@ -119,16 +114,9 @@ RUN pip install \
 # ARM workaround
 RUN pip install scipy==1.1.0
 
-# VPP PIP pre-cache
-RUN pip install \
-        aenum
-
 # Kernel image for VM tests download and extract
 COPY get-linux-vm-image.sh /root/get-linux-vm-image.sh
-RUN chmod 755 /root/get-linux-vm-image.sh
-RUN /root/get-linux-vm-image.sh
-
-RUN rm -rf /var/lib/apt/lists/*
+RUN chmod 755 /root/get-linux-vm-image.sh && /root/get-linux-vm-image.sh
 
 # SSH settings
 RUN echo 'root:Csit1234' | chpasswd \
