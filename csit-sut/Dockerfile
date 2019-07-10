@@ -114,10 +114,6 @@ RUN pip install \
 # ARM workaround
 RUN pip install scipy==1.1.0
 
-# Kernel image for VM tests download and extract
-COPY get-linux-vm-image.sh /root/get-linux-vm-image.sh
-RUN chmod 755 /root/get-linux-vm-image.sh && /root/get-linux-vm-image.sh
-
 # SSH settings
 RUN echo 'root:Csit1234' | chpasswd \
  && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
