@@ -67,7 +67,8 @@ RUN yum install -y \
         libnuma1 \
         python-cffi \
         python36-cffi \
-        python-enum34
+        python-enum34 \
+        git
 
 # Configure locales
 #RUN localectl set-locale "en_US.UTF-8" \
