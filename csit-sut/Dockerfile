@@ -37,6 +37,11 @@ RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
  && apt-get remove -y \
         curl
 
+# Add packagecloud
+RUN curl -L https://packagecloud.io/fdio/master/gpgkey |sudo apt-key add -
+RUN curl -s https://packagecloud.io/install/repositories/fdio/master/script.deb.sh | sudo bash
+
+
 # Extended layer
 RUN apt-get -q update \
  && apt-get install -y -qq \
@@ -82,6 +87,8 @@ RUN apt-get -q update \
         python-cffi \
         python-enum34 \
         python3-cffi \
+        # temp hack due to build.sh
+        vpp-ext-deps
  && rm -rf /var/lib/apt/lists/*
 
 # Configure locales

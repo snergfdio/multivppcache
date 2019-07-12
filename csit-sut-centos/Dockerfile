@@ -25,6 +25,9 @@ ENV VPP_PYTHON_PREFIX=/var/cache/vpp/python
 # Repository settings
 RUN yum install -y centos-release-scl epel-release
 
+# packagecloud for vpp-ext-deps
+RUN curl -s https://packagecloud.io/install/repositories/fdio/master/script.rpm.sh | sudo bash
+
 # Extended layer
 RUN yum install -y \
         # general tools
@@ -68,7 +71,8 @@ RUN yum install -y \
         python-cffi \
         python36-cffi \
         python-enum34 \
-        git
+        git \
+        vpp-ext-deps
 
 # Configure locales
 #RUN localectl set-locale "en_US.UTF-8" \
@@ -119,6 +123,7 @@ RUN echo 'root:Csit1234' | chpasswd \
  && sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config \
  && sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd \
  && echo "export VISIBLE=now" >> /etc/profile
+ADD files/sshconfig /root/.ssh/config
 
 EXPOSE 22
 
