@@ -23,7 +23,7 @@ ENV NOTVISIBLE "in users profile"
 ENV VPP_PYTHON_PREFIX=/var/cache/vpp/python
 
 # Repository settings
-RUN yum install -y centos-release-scl epel-release
+RUN yum install -y centos-release-scl epel-release sudo
 
 # packagecloud for vpp-ext-deps
 RUN curl -s https://packagecloud.io/install/repositories/fdio/master/script.rpm.sh | sudo bash

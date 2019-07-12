@@ -88,7 +88,7 @@ RUN apt-get -q update \
         python-enum34 \
         python3-cffi \
         # temp hack due to build.sh
-        vpp-ext-deps
+        vpp-ext-deps \
  && rm -rf /var/lib/apt/lists/*
 
 # Configure locales
