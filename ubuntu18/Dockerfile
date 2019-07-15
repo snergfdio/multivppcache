@@ -167,6 +167,8 @@ RUN apt-get -q update && \
         iperf3 \
         libibverbs-dev \
         apt-utils \
+        python3-all \
+        python3-ply \
         && rm -rf /var/lib/apt/lists/*
 
 # For the docs
