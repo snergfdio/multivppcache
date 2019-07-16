@@ -87,6 +87,7 @@ RUN apt-get -q update \
         python-cffi \
         python-enum34 \
         python3-cffi \
+        sshpass \
         # temp hack due to build.sh
         vpp-ext-deps \
  && rm -rf /var/lib/apt/lists/*

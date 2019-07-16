@@ -72,6 +72,7 @@ RUN yum install -y \
         python36-cffi \
         python-enum34 \
         git \
+        sshpass \
         vpp-ext-deps
 
 # Configure locales

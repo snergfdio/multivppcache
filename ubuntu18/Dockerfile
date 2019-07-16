@@ -64,6 +64,7 @@ RUN apt-get -q update && \
         socat \
         software-properties-common \
         ssh \
+        sshpass \
         sudo \
         sysstat \
         tar \
