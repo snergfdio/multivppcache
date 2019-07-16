@@ -28,13 +28,14 @@ RUN apt-get -q update \
  && apt-get install -y -qq \
         apt-transport-https \
         curl \
+        sudo \
         software-properties-common \
  && rm -rf /var/lib/apt/lists/*
 
 # Repository settings
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
- && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
- && apt-get remove -y \
+ && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+# && apt-get remove -y \
         curl
 
 # Add packagecloud
