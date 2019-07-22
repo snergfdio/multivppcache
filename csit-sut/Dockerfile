@@ -11,10 +11,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM ubuntu:bionic-20180821
-
+FROM ubuntu:18.04
 MAINTAINER csit-dev <csit-dev@lists.fd.io>
-LABEL Description="CSIT vpp-device ubuntu 18.04 baseline image (x86)"
+LABEL Description="CSIT vpp-device ubuntu 18.04 SUT image"
 LABEL Version="0.6"
 
 # Setup the environment
@@ -23,37 +22,20 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 ENV NOTVISIBLE "in users profile"
 ENV VPP_PYTHON_PREFIX=/var/cache/vpp/python
 
-# Base layer
-RUN apt-get -q update \
- && apt-get install -y -qq \
-        apt-transport-https \
-        curl \
-        sudo \
-        software-properties-common \
- && rm -rf /var/lib/apt/lists/*
-
-# Repository settings
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
- && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-# && apt-get remove -y \
-#        curl
-
-# Add packagecloud
-RUN curl -L https://packagecloud.io/fdio/master/gpgkey |sudo apt-key add -
-RUN curl -s https://packagecloud.io/install/repositories/fdio/master/script.deb.sh | sudo bash
-
-
-# Extended layer
+# Install packages and Docker
 RUN apt-get -q update \
  && apt-get install -y -qq \
         # general tools
+        apt-transport-https \
         bridge-utils \
         cloud-init \
+        curl \
         locales \
         net-tools \
         openssh-server \
         pciutils \
         rsyslog \
+        software-properties-common \
         ssh \
         sudo \
         supervisor \
@@ -63,7 +45,9 @@ RUN apt-get -q update \
         # csit requirements
         cmake \
         dkms \
-        docker-ce \
+        gfortran \
+        libblas-dev \
+        liblapack-dev \
         libpcap-dev \
         libpython2.7-dev \
         libpython-dev \
@@ -72,7 +56,7 @@ RUN apt-get -q update \
         python2.7-dev \
         python-dev \
         python-virtualenv \
-        qemu-system-x86 \
+        qemu-system \
         socat \
         strongswan \
         unzip \
@@ -89,8 +73,11 @@ RUN apt-get -q update \
         python-enum34 \
         python3-cffi \
         sshpass \
-        # temp hack due to build.sh
-        vpp-ext-deps \
+ && curl -L https://packagecloud.io/fdio/master/gpgkey | sudo apt-key add - \
+ && curl -s https://packagecloud.io/install/repositories/fdio/master/script.deb.sh | sudo bash \
+ # temp hack due to build.sh
+ && apt-get install -y -qq vpp-ext-deps \
+ && curl -fsSL https://get.docker.com | sh \
  && rm -rf /var/lib/apt/lists/*
 
 # Configure locales
@@ -108,6 +95,7 @@ RUN mkdir -p /tmp/dumps \
 
 # CSIT PIP pre-cache
 RUN pip install \
+        aenum==2.1.2 \
         docopt==0.6.2 \
         ecdsa==0.13 \
         enum34==1.1.2 \
@@ -125,12 +113,10 @@ RUN pip install \
         scp==0.10.2 \
         six==1.12.0 \
         dill==0.2.8.2 \
-        numpy==1.14.5 \
-        scipy==1.1.0
+        numpy==1.14.5
 
-# VPP PIP pre-cache
-RUN pip install \
-        aenum
+# ARM workaround
+RUN pip install scipy==1.1.0
 
 # SSH settings
 RUN echo 'root:Csit1234' | chpasswd \
