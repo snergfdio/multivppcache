@@ -238,9 +238,30 @@ RUN chmod 755 /usr/local/bin/lf-update-java-alternatives
 RUN gem install rake
 RUN gem install package_cloud
 RUN pip install six scapy==2.3.3 pyexpect subprocess32 cffi git+https://github.com/klement/py-lispnetworking@setup pycodestyle
-#Below are requirements for csit
-RUN pip install robotframework==2.9.2 paramiko==1.16.0 scp==0.10.2 ipaddress==1.0.16 interruptingcow==0.6 PyYAML==3.11 pykwalify==1.5.0 \
-        enum34==1.1.2 requests==2.9.1 ecdsa==0.13 pycrypto==2.6.1 pypcap==1.1.5 psutil
+# CSIT PIP pre-cache
+RUN pip install \
+        aenum==2.1.2 \
+        docopt==0.6.2 \
+        ecdsa==0.13 \
+        enum34==1.1.2 \
+        ipaddress==1.0.16 \
+        paramiko==1.16.0 \
+        pexpect==4.6.0 \
+        pycrypto==2.6.1 \
+        pykwalify==1.5.0 \
+        pypcap==1.1.5 \
+        python-dateutil==2.4.2 \
+        PyYAML==3.11 \
+        requests==2.9.1 \
+        robotframework==2.9.2 \
+        scapy==2.3.1 \
+        scp==0.10.2 \
+        six==1.12.0 \
+        dill==0.2.8.2 \
+        numpy==1.14.5 \
+	psutil
+# ARM workaround
+RUN pip install scipy==1.1.0
 RUN mkdir -p /var/cache/vpp/python
 RUN mkdir -p /w/Downloads
 #RUN wget -O /w/Downloads/nasm-2.13.01.tar.xz http://www.nasm.us/pub/nasm/releasebuilds/2.13.01/nasm-2.13.01.tar.xz
@@ -255,7 +276,3 @@ RUN wget -O /w/Downloads/v0.49.tar.gz http://github.com/01org/intel-ipsec-mb/arc
 RUN curl -s https://packagecloud.io/install/repositories/fdio/master/script.deb.sh | sudo bash
 
 #RUN git clone https://gerrit.fd.io/r/vpp /workspace/ubuntu16 && cd /workspace/ubuntu16; make UNATTENDED=yes install-dep && rm -rf /workspace/ubuntu16 && rm -rf /var/lib/apt/lists/*
-
-
-
-
