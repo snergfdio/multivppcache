@@ -14,7 +14,7 @@
 FROM ubuntu:18.04
 MAINTAINER csit-dev <csit-dev@lists.fd.io>
 LABEL Description="CSIT vpp-device ubuntu 18.04 SUT image"
-LABEL Version="0.6"
+LABEL Version="0.7"
 
 # Setup the environment
 ENV DEBIAN_FRONTEND=noninteractive
@@ -49,13 +49,24 @@ RUN apt-get -q update \
         libblas-dev \
         liblapack-dev \
         libpcap-dev \
-        libpython2.7-dev \
-        libpython-dev \
         openjdk-8-jdk-headless \
-        python-pip \
-        python2.7-dev \
+        python-all \
+        python-apt \
+        python-cffi \
+        python-cffi-backend \
         python-dev \
+        python-enum34 \
+        python-pip \
+        python-setuptools \
         python-virtualenv \
+        python3-all \
+        python3-apt \
+        python3-cffi \
+        python3-cffi-backend \
+        python3-dev \
+        python3-pip \
+        python3-setuptools \
+        python3-virtualenv \
         qemu-system \
         socat \
         strongswan \
@@ -69,9 +80,6 @@ RUN apt-get -q update \
         libmbedtls10 \
         libmbedx509-0 \
         libnuma1 \
-        python-cffi \
-        python-enum34 \
-        python3-cffi \
         sshpass \
  && curl -L https://packagecloud.io/fdio/master/gpgkey | sudo apt-key add - \
  && curl -s https://packagecloud.io/install/repositories/fdio/master/script.deb.sh | sudo bash \
